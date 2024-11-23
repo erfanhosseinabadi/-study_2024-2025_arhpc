@@ -1,0 +1,275 @@
+     1                                  %include 'in_out.asm'
+     1                              <1> ;---------------   slen  -------------------
+     2                              <1> ; Функция вычисления длины сообщения
+     3                              <1> slen:                     
+     4                              <1>     push    ebx             
+     4          ******************  <1>  error: instruction not supported in 64-bit mode
+     5 00000000 89C3                <1>     mov     ebx, eax        
+     6                              <1>     
+     7                              <1> nextchar:                   
+     8 00000002 67803800            <1>     cmp     byte [eax], 0   
+     9 00000006 7404                <1>     jz      finished        
+    10 00000008 FFC0                <1>     inc     eax             
+    11 0000000A EBF6                <1>     jmp     nextchar        
+    12                              <1>     
+    13                              <1> finished:
+    14 0000000C 29D8                <1>     sub     eax, ebx
+    15                              <1>     pop     ebx             
+    15          ******************  <1>  error: instruction not supported in 64-bit mode
+    16 0000000E C3                  <1>     ret                     
+    17                              <1> 
+    18                              <1> 
+    19                              <1> ;---------------  sprint  -------------------
+    20                              <1> ; Функция печати сообщения
+    21                              <1> ; входные данные: mov eax,<message>
+    22                              <1> sprint:
+    23                              <1>     push    edx
+    23          ******************  <1>  error: instruction not supported in 64-bit mode
+    24                              <1>     push    ecx
+    24          ******************  <1>  error: instruction not supported in 64-bit mode
+    25                              <1>     push    ebx
+    25          ******************  <1>  error: instruction not supported in 64-bit mode
+    26                              <1>     push    eax
+    26          ******************  <1>  error: instruction not supported in 64-bit mode
+    27 0000000F E8ECFFFFFF          <1>     call    slen
+    28                              <1>     
+    29 00000014 89C2                <1>     mov     edx, eax
+    30                              <1>     pop     eax
+    30          ******************  <1>  error: instruction not supported in 64-bit mode
+    31                              <1>     
+    32 00000016 89C1                <1>     mov     ecx, eax
+    33 00000018 BB01000000          <1>     mov     ebx, 1
+    34 0000001D B804000000          <1>     mov     eax, 4
+    35 00000022 CD80                <1>     int     80h
+    36                              <1> 
+    37                              <1>     pop     ebx
+    37          ******************  <1>  error: instruction not supported in 64-bit mode
+    38                              <1>     pop     ecx
+    38          ******************  <1>  error: instruction not supported in 64-bit mode
+    39                              <1>     pop     edx
+    39          ******************  <1>  error: instruction not supported in 64-bit mode
+    40 00000024 C3                  <1>     ret
+    41                              <1> 
+    42                              <1> 
+    43                              <1> ;----------------  sprintLF  ----------------
+    44                              <1> ; Функция печати сообщения с переводом строки
+    45                              <1> ; входные данные: mov eax,<message>
+    46                              <1> sprintLF:
+    47 00000025 E8E5FFFFFF          <1>     call    sprint
+    48                              <1> 
+    49                              <1>     push    eax
+    49          ******************  <1>  error: instruction not supported in 64-bit mode
+    50 0000002A B80A000000          <1>     mov     eax, 0AH
+    51                              <1>     push    eax
+    51          ******************  <1>  error: instruction not supported in 64-bit mode
+    52 0000002F 89E0                <1>     mov     eax, esp
+    53 00000031 E8D9FFFFFF          <1>     call    sprint
+    54                              <1>     pop     eax
+    54          ******************  <1>  error: instruction not supported in 64-bit mode
+    55                              <1>     pop     eax
+    55          ******************  <1>  error: instruction not supported in 64-bit mode
+    56 00000036 C3                  <1>     ret
+    57                              <1> 
+    58                              <1> ;---------------  sread  ----------------------
+    59                              <1> ; Функция считывания сообщения
+    60                              <1> ; входные данные: mov eax,<buffer>, mov ebx,<N>
+    61                              <1> sread:
+    62                              <1>     push    ebx
+    62          ******************  <1>  error: instruction not supported in 64-bit mode
+    63                              <1>     push    eax
+    63          ******************  <1>  error: instruction not supported in 64-bit mode
+    64                              <1>    
+    65 00000037 BB00000000          <1>     mov     ebx, 0
+    66 0000003C B803000000          <1>     mov     eax, 3
+    67 00000041 CD80                <1>     int     80h
+    68                              <1> 
+    69                              <1>     pop     ebx
+    69          ******************  <1>  error: instruction not supported in 64-bit mode
+    70                              <1>     pop     ecx
+    70          ******************  <1>  error: instruction not supported in 64-bit mode
+    71 00000043 C3                  <1>     ret
+    72                              <1>     
+    73                              <1> ;------------- iprint  ---------------------
+    74                              <1> ; Функция вывода на экран чисел в формате ASCII
+    75                              <1> ; входные данные: mov eax,<int>
+    76                              <1> iprint:
+    77                              <1>     push    eax             
+    77          ******************  <1>  error: instruction not supported in 64-bit mode
+    78                              <1>     push    ecx             
+    78          ******************  <1>  error: instruction not supported in 64-bit mode
+    79                              <1>     push    edx             
+    79          ******************  <1>  error: instruction not supported in 64-bit mode
+    80                              <1>     push    esi             
+    80          ******************  <1>  error: instruction not supported in 64-bit mode
+    81 00000044 B900000000          <1>     mov     ecx, 0          
+    82                              <1>     
+    83                              <1> divideLoop:
+    84 00000049 FFC1                <1>     inc     ecx             
+    85 0000004B BA00000000          <1>     mov     edx, 0          
+    86 00000050 BE0A000000          <1>     mov     esi, 10  
+    87 00000055 F7FE                <1>     idiv    esi    
+    88 00000057 83C230              <1>     add     edx, 48  
+    89                              <1>     push    edx   
+    89          ******************  <1>  error: instruction not supported in 64-bit mode
+    90 0000005A 83F800              <1>     cmp     eax, 0   
+    91 0000005D 75EA                <1>     jnz     divideLoop  
+    92                              <1> 
+    93                              <1> printLoop:
+    94 0000005F FFC9                <1>     dec     ecx       
+    95 00000061 89E0                <1>     mov     eax, esp  
+    96 00000063 E8A7FFFFFF          <1>     call    sprint   
+    97                              <1>     pop     eax    
+    97          ******************  <1>  error: instruction not supported in 64-bit mode
+    98 00000068 83F900              <1>     cmp     ecx, 0   
+    99 0000006B 75F2                <1>     jnz     printLoop  
+   100                              <1> 
+   101                              <1>     pop     esi   
+   101          ******************  <1>  error: instruction not supported in 64-bit mode
+   102                              <1>     pop     edx    
+   102          ******************  <1>  error: instruction not supported in 64-bit mode
+   103                              <1>     pop     ecx   
+   103          ******************  <1>  error: instruction not supported in 64-bit mode
+   104                              <1>     pop     eax           
+   104          ******************  <1>  error: instruction not supported in 64-bit mode
+   105 0000006D C3                  <1>     ret
+   106                              <1> 
+   107                              <1> 
+   108                              <1> ;--------------- iprintLF   --------------------
+   109                              <1> ; Функция вывода на экран чисел в формате ASCII
+   110                              <1> ; входные данные: mov eax,<int>
+   111                              <1> iprintLF:
+   112 0000006E E8D1FFFFFF          <1>     call    iprint          
+   113                              <1> 
+   114                              <1>     push    eax             
+   114          ******************  <1>  error: instruction not supported in 64-bit mode
+   115 00000073 B80A000000          <1>     mov     eax, 0Ah        
+   116                              <1>     push    eax             
+   116          ******************  <1>  error: instruction not supported in 64-bit mode
+   117 00000078 89E0                <1>     mov     eax, esp       
+   118 0000007A E890FFFFFF          <1>     call    sprint          
+   119                              <1>     pop     eax             
+   119          ******************  <1>  error: instruction not supported in 64-bit mode
+   120                              <1>     pop     eax             
+   120          ******************  <1>  error: instruction not supported in 64-bit mode
+   121 0000007F C3                  <1>     ret
+   122                              <1> 
+   123                              <1> ;----------------- atoi  ---------------------
+   124                              <1> ; Функция преобразования ascii-код символа в целое число
+   125                              <1> ; входные данные: mov eax,<int>
+   126                              <1> atoi:
+   127                              <1>     push    ebx             
+   127          ******************  <1>  error: instruction not supported in 64-bit mode
+   128                              <1>     push    ecx             
+   128          ******************  <1>  error: instruction not supported in 64-bit mode
+   129                              <1>     push    edx             
+   129          ******************  <1>  error: instruction not supported in 64-bit mode
+   130                              <1>     push    esi             
+   130          ******************  <1>  error: instruction not supported in 64-bit mode
+   131 00000080 89C6                <1>     mov     esi, eax        
+   132 00000082 B800000000          <1>     mov     eax, 0          
+   133 00000087 B900000000          <1>     mov     ecx, 0          
+   134                              <1>  
+   135                              <1> .multiplyLoop:
+   136 0000008C 31DB                <1>     xor     ebx, ebx        
+   137 0000008E 678A1C0E            <1>     mov     bl, [esi+ecx]
+   138 00000092 80FB30              <1>     cmp     bl, 48 
+   139 00000095 7C15                <1>     jl      .finished 
+   140 00000097 80FB39              <1>     cmp     bl, 57  
+   141 0000009A 7F10                <1>     jg      .finished 
+   142                              <1>  
+   143 0000009C 80EB30              <1>     sub     bl, 48 
+   144 0000009F 01D8                <1>     add     eax, ebx
+   145 000000A1 BB0A000000          <1>     mov     ebx, 10  
+   146 000000A6 F7E3                <1>     mul     ebx  
+   147 000000A8 FFC1                <1>     inc     ecx   
+   148 000000AA EBE0                <1>     jmp     .multiplyLoop  
+   149                              <1>  
+   150                              <1> .finished:
+   151 000000AC 83F900              <1>     cmp     ecx, 0  
+   152 000000AF 7407                <1>     je      .restore   
+   153 000000B1 BB0A000000          <1>     mov     ebx, 10  
+   154 000000B6 F7F3                <1>     div     ebx     
+   155                              <1>  
+   156                              <1> .restore:
+   157                              <1>     pop     esi   
+   157          ******************  <1>  error: instruction not supported in 64-bit mode
+   158                              <1>     pop     edx    
+   158          ******************  <1>  error: instruction not supported in 64-bit mode
+   159                              <1>     pop     ecx  
+   159          ******************  <1>  error: instruction not supported in 64-bit mode
+   160                              <1>     pop     ebx 
+   160          ******************  <1>  error: instruction not supported in 64-bit mode
+   161 000000B8 C3                  <1>     ret
+   162                              <1> 
+   163                              <1> 
+   164                              <1> ;------------- quit   ---------------------
+   165                              <1> ; Функция завершения программы
+   166                              <1> quit:
+   167 000000B9 BB00000000          <1>     mov     ebx, 0      
+   168 000000BE B801000000          <1>     mov     eax, 1      
+   169 000000C3 CD80                <1>     int     80h
+   170 000000C5 C3                  <1>     ret
+     2                                  
+     3                                  SECTION .data
+     4 00000000 656E74657220623A20-     msg1 db 'enter b: ', 0h
+     4 00000009 00                 
+     5 0000000A 746865206C61726765-     msg2 db 'the largest number: ', 0h
+     5 00000013 7374206E756D626572-
+     5 0000001C 3A2000             
+     6 0000001F 32300000                A dd '20'
+     7 00000023 35300000                C dd '50'
+     8                                  
+     9                                  SECTION .bss
+    10 00000000 <res Ah>                max resb 10
+    11 0000000A <res Ah>                B resb 10
+    12                                  
+    13                                  SECTION .text
+    14                                  GLOBAL _start
+    15                                  _start:
+    16                                  
+    17 000000C6 B8[00000000]            mov eax, msg1
+    18 000000CB E83FFFFFFF              call sprint
+    19                                  
+    20 000000D0 B9[0A000000]            mov ecx, B
+    21 000000D5 BA0A000000              mov edx, 10
+    22 000000DA E858FFFFFF              call sread
+    23                                  
+    24 000000DF B8[0A000000]            mov eax, B
+    25 000000E4 E897FFFFFF              call atoi
+    26 000000E9 890425[0A000000]        mov [B], eax
+    27                                  
+    28 000000F0 8B0C25[1F000000]        mov ecx, [A]
+    29 000000F7 890C25[00000000]        mov [max], ecx
+    30                                  
+    31 000000FE 3B0C25[23000000]        cmp ecx, [C]
+    32 00000105 7F0E                    jg check_B
+    33 00000107 8B0C25[23000000]        mov ecx, [C]
+    34 0000010E 890C25[00000000]        mov [max], ecx
+    35                                  
+    36                                  check_B:
+    37                                  mov eax, 
+    37          ******************       error: invalid combination of opcode and operands
+    38 00000115 E866FFFFFF              call atoi
+    39 0000011A 890425[00000000]        mov [max], eax
+    40                                  
+    41 00000121 8B0C25[00000000]        mov ecx, [max]
+    42 00000128 3B0C25[0A000000]        cmp ecx, [B]
+    43 0000012F 7F0E                    jg fin
+    44 00000131 8B0C25[0A000000]        mov ecx, [B]
+    45 00000138 890C25[00000000]        mov [max], ecx
+    46                                  
+    47                                  fin:
+    48 0000013F B8[0A000000]            mov eax, msg2
+    49 00000144 E8C6FEFFFF              call sprint
+    50 00000149 8B0425[00000000]        mov eax, [max]
+    51 00000150 E819FFFFFF              call iprintLF
+    52 00000155 E85FFFFFFF              call quit
+    53                                  
+    54                                  
+    55                                  
+    56                                  
+    57                                  
+    58                                  
+    59                                  
+    60                                  
+    61                                  
